@@ -1,0 +1,283 @@
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"msp.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/msp.c"
+  20              		.section	.text.HAL_MspInit,"ax",%progbits
+  21              		.align	1
+  22              		.global	HAL_MspInit
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	HAL_MspInit:
+  28              	.LFB134:
+   1:Core/Src/msp.c **** // msp.c
+   2:Core/Src/msp.c **** #include "stm32f4xx.h"
+   3:Core/Src/msp.c **** #include "stm32f4xx_hal_cortex.h"
+   4:Core/Src/msp.c **** 
+   5:Core/Src/msp.c **** /**
+   6:Core/Src/msp.c ****   * @brief  Initialize the MSP.
+   7:Core/Src/msp.c ****   * @retval None
+   8:Core/Src/msp.c ****   */
+   9:Core/Src/msp.c **** void HAL_MspInit(void)
+  10:Core/Src/msp.c **** {
+  29              		.loc 1 10 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  11:Core/Src/msp.c ****   // 1. Set up priority grouping for Cortex-M.
+  12:Core/Src/msp.c ****   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+  38              		.loc 1 12 3 view .LVU1
+  39 0002 0320     		movs	r0, #3
+  40 0004 FFF7FEFF 		bl	HAL_NVIC_SetPriorityGrouping
+  41              	.LVL0:
+  13:Core/Src/msp.c **** 
+  14:Core/Src/msp.c ****   // 2. Enable usage fault, memory fault and bus fault exceptions.
+  15:Core/Src/msp.c ****   SCB->SHCSR |= 0x7 << 16;
+  42              		.loc 1 15 3 view .LVU2
+  43              		.loc 1 15 6 is_stmt 0 view .LVU3
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s 			page 2
+
+
+  44 0008 0B4A     		ldr	r2, .L3
+  45 000a 536A     		ldr	r3, [r2, #36]
+  46              		.loc 1 15 14 view .LVU4
+  47 000c 43F4E023 		orr	r3, r3, #458752
+  48 0010 5362     		str	r3, [r2, #36]
+  16:Core/Src/msp.c **** 
+  17:Core/Src/msp.c ****   // 3. Configure priorities for system exceptions.
+  18:Core/Src/msp.c ****   HAL_NVIC_SetPriority(MemoryManagement_IRQn, 0, 0);
+  49              		.loc 1 18 3 is_stmt 1 view .LVU5
+  50 0012 0022     		movs	r2, #0
+  51 0014 1146     		mov	r1, r2
+  52 0016 6FF00B00 		mvn	r0, #11
+  53 001a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  54              	.LVL1:
+  19:Core/Src/msp.c ****   HAL_NVIC_SetPriority(BusFault_IRQn, 0, 0);
+  55              		.loc 1 19 3 view .LVU6
+  56 001e 0022     		movs	r2, #0
+  57 0020 1146     		mov	r1, r2
+  58 0022 6FF00A00 		mvn	r0, #10
+  59 0026 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  60              	.LVL2:
+  20:Core/Src/msp.c ****   HAL_NVIC_SetPriority(UsageFault_IRQn, 0, 0);
+  61              		.loc 1 20 3 view .LVU7
+  62 002a 0022     		movs	r2, #0
+  63 002c 1146     		mov	r1, r2
+  64 002e 6FF00900 		mvn	r0, #9
+  65 0032 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  66              	.LVL3:
+  21:Core/Src/msp.c **** }
+  67              		.loc 1 21 1 is_stmt 0 view .LVU8
+  68 0036 08BD     		pop	{r3, pc}
+  69              	.L4:
+  70              		.align	2
+  71              	.L3:
+  72 0038 00ED00E0 		.word	-536810240
+  73              		.cfi_endproc
+  74              	.LFE134:
+  76              		.section	.text.HAL_UART_MspInit,"ax",%progbits
+  77              		.align	1
+  78              		.global	HAL_UART_MspInit
+  79              		.syntax unified
+  80              		.thumb
+  81              		.thumb_func
+  83              	HAL_UART_MspInit:
+  84              	.LVL4:
+  85              	.LFB135:
+  22:Core/Src/msp.c **** 
+  23:Core/Src/msp.c **** 
+  24:Core/Src/msp.c **** 
+  25:Core/Src/msp.c **** void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+  26:Core/Src/msp.c **** {
+  86              		.loc 1 26 1 is_stmt 1 view -0
+  87              		.cfi_startproc
+  88              		@ args = 0, pretend = 0, frame = 32
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90              		.loc 1 26 1 is_stmt 0 view .LVU10
+  91 0000 70B5     		push	{r4, r5, r6, lr}
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s 			page 3
+
+
+  92              	.LCFI1:
+  93              		.cfi_def_cfa_offset 16
+  94              		.cfi_offset 4, -16
+  95              		.cfi_offset 5, -12
+  96              		.cfi_offset 6, -8
+  97              		.cfi_offset 14, -4
+  98 0002 88B0     		sub	sp, sp, #32
+  99              	.LCFI2:
+ 100              		.cfi_def_cfa_offset 48
+  27:Core/Src/msp.c ****     GPIO_InitTypeDef gpio_uart;
+ 101              		.loc 1 27 5 is_stmt 1 view .LVU11
+  28:Core/Src/msp.c ****     // Here we are going to do the low level initialisation of the USART2 peripherals
+  29:Core/Src/msp.c **** 
+  30:Core/Src/msp.c ****     // 1. Enable the clock for the USART2 peripheral
+  31:Core/Src/msp.c ****     __HAL_RCC_USART2_CLK_ENABLE();  
+ 102              		.loc 1 31 5 view .LVU12
+ 103              	.LBB2:
+ 104              		.loc 1 31 5 view .LVU13
+ 105 0004 0024     		movs	r4, #0
+ 106 0006 0194     		str	r4, [sp, #4]
+ 107              		.loc 1 31 5 view .LVU14
+ 108 0008 194B     		ldr	r3, .L7
+ 109 000a 1A6C     		ldr	r2, [r3, #64]
+ 110 000c 42F40032 		orr	r2, r2, #131072
+ 111 0010 1A64     		str	r2, [r3, #64]
+ 112              		.loc 1 31 5 view .LVU15
+ 113 0012 1A6C     		ldr	r2, [r3, #64]
+ 114 0014 02F40032 		and	r2, r2, #131072
+ 115 0018 0192     		str	r2, [sp, #4]
+ 116              		.loc 1 31 5 view .LVU16
+ 117 001a 019A     		ldr	r2, [sp, #4]
+ 118              	.LBE2:
+ 119              		.loc 1 31 5 view .LVU17
+  32:Core/Src/msp.c ****     __HAL_RCC_GPIOA_CLK_ENABLE();
+ 120              		.loc 1 32 5 view .LVU18
+ 121              	.LBB3:
+ 122              		.loc 1 32 5 view .LVU19
+ 123 001c 0294     		str	r4, [sp, #8]
+ 124              		.loc 1 32 5 view .LVU20
+ 125 001e 1A6B     		ldr	r2, [r3, #48]
+ 126 0020 42F00102 		orr	r2, r2, #1
+ 127 0024 1A63     		str	r2, [r3, #48]
+ 128              		.loc 1 32 5 view .LVU21
+ 129 0026 1B6B     		ldr	r3, [r3, #48]
+ 130 0028 03F00103 		and	r3, r3, #1
+ 131 002c 0293     		str	r3, [sp, #8]
+ 132              		.loc 1 32 5 view .LVU22
+ 133 002e 029B     		ldr	r3, [sp, #8]
+ 134              	.LBE3:
+ 135              		.loc 1 32 5 view .LVU23
+  33:Core/Src/msp.c **** 
+  34:Core/Src/msp.c ****     // 2. Do the pin muxing configurations
+  35:Core/Src/msp.c ****     gpio_uart.Pin       =   GPIO_PIN_2; // UART2_TX
+ 136              		.loc 1 35 5 view .LVU24
+ 137              		.loc 1 35 25 is_stmt 0 view .LVU25
+ 138 0030 0423     		movs	r3, #4
+ 139 0032 0393     		str	r3, [sp, #12]
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s 			page 4
+
+
+  36:Core/Src/msp.c ****     gpio_uart.Mode      =   GPIO_MODE_AF_PP;
+ 140              		.loc 1 36 5 is_stmt 1 view .LVU26
+ 141              		.loc 1 36 25 is_stmt 0 view .LVU27
+ 142 0034 0223     		movs	r3, #2
+ 143 0036 0493     		str	r3, [sp, #16]
+  37:Core/Src/msp.c ****     gpio_uart.Pull      =   GPIO_PULLUP;
+ 144              		.loc 1 37 5 is_stmt 1 view .LVU28
+ 145              		.loc 1 37 25 is_stmt 0 view .LVU29
+ 146 0038 0123     		movs	r3, #1
+ 147 003a 0593     		str	r3, [sp, #20]
+  38:Core/Src/msp.c ****     gpio_uart.Speed     =   GPIO_SPEED_FREQ_LOW;
+ 148              		.loc 1 38 5 is_stmt 1 view .LVU30
+ 149              		.loc 1 38 25 is_stmt 0 view .LVU31
+ 150 003c 0694     		str	r4, [sp, #24]
+  39:Core/Src/msp.c ****     gpio_uart.Alternate =   GPIO_AF7_USART2;
+ 151              		.loc 1 39 5 is_stmt 1 view .LVU32
+ 152              		.loc 1 39 25 is_stmt 0 view .LVU33
+ 153 003e 0723     		movs	r3, #7
+ 154 0040 0793     		str	r3, [sp, #28]
+  40:Core/Src/msp.c ****     HAL_GPIO_Init(GPIOA, &gpio_uart);
+ 155              		.loc 1 40 5 is_stmt 1 view .LVU34
+ 156 0042 03AE     		add	r6, sp, #12
+ 157 0044 0B4D     		ldr	r5, .L7+4
+ 158 0046 3146     		mov	r1, r6
+ 159 0048 2846     		mov	r0, r5
+ 160              	.LVL5:
+ 161              		.loc 1 40 5 is_stmt 0 view .LVU35
+ 162 004a FFF7FEFF 		bl	HAL_GPIO_Init
+ 163              	.LVL6:
+  41:Core/Src/msp.c **** 
+  42:Core/Src/msp.c ****     gpio_uart.Pin       =   GPIO_PIN_3; // UART2_RX
+ 164              		.loc 1 42 5 is_stmt 1 view .LVU36
+ 165              		.loc 1 42 25 is_stmt 0 view .LVU37
+ 166 004e 0823     		movs	r3, #8
+ 167 0050 0393     		str	r3, [sp, #12]
+  43:Core/Src/msp.c ****     HAL_GPIO_Init(GPIOA, &gpio_uart);
+ 168              		.loc 1 43 5 is_stmt 1 view .LVU38
+ 169 0052 3146     		mov	r1, r6
+ 170 0054 2846     		mov	r0, r5
+ 171 0056 FFF7FEFF 		bl	HAL_GPIO_Init
+ 172              	.LVL7:
+  44:Core/Src/msp.c **** 
+  45:Core/Src/msp.c ****     // 3. Enable the IRQ and set up the priority (NVIC settings)
+  46:Core/Src/msp.c ****     HAL_NVIC_EnableIRQ(USART2_IRQn);
+ 173              		.loc 1 46 5 view .LVU39
+ 174 005a 2620     		movs	r0, #38
+ 175 005c FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 176              	.LVL8:
+  47:Core/Src/msp.c ****     HAL_NVIC_SetPriority(USART2_IRQn, 15, 0);
+ 177              		.loc 1 47 5 view .LVU40
+ 178 0060 2246     		mov	r2, r4
+ 179 0062 0F21     		movs	r1, #15
+ 180 0064 2620     		movs	r0, #38
+ 181 0066 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 182              	.LVL9:
+  48:Core/Src/msp.c **** }
+ 183              		.loc 1 48 1 is_stmt 0 view .LVU41
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s 			page 5
+
+
+ 184 006a 08B0     		add	sp, sp, #32
+ 185              	.LCFI3:
+ 186              		.cfi_def_cfa_offset 16
+ 187              		@ sp needed
+ 188 006c 70BD     		pop	{r4, r5, r6, pc}
+ 189              	.L8:
+ 190 006e 00BF     		.align	2
+ 191              	.L7:
+ 192 0070 00380240 		.word	1073887232
+ 193 0074 00000240 		.word	1073872896
+ 194              		.cfi_endproc
+ 195              	.LFE135:
+ 197              		.text
+ 198              	.Letext0:
+ 199              		.file 2 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h"
+ 200              		.file 3 "/Applications/ArmGNUToolchain/14.2.rel1/arm-none-eabi/arm-none-eabi/include/machine/_defa
+ 201              		.file 4 "/Applications/ArmGNUToolchain/14.2.rel1/arm-none-eabi/arm-none-eabi/include/sys/_stdint.h
+ 202              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
+ 203              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 204              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 205              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 206              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 207              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ARM GAS  /var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 msp.c
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s:21     .text.HAL_MspInit:00000000 $t
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s:27     .text.HAL_MspInit:00000000 HAL_MspInit
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s:72     .text.HAL_MspInit:00000038 $d
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s:77     .text.HAL_UART_MspInit:00000000 $t
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s:83     .text.HAL_UART_MspInit:00000000 HAL_UART_MspInit
+/var/folders/cw/yd42cdzd0yd5y__m68_66wjm0000gn/T//ccQzZx5T.s:192    .text.HAL_UART_MspInit:00000070 $d
+
+UNDEFINED SYMBOLS
+HAL_NVIC_SetPriorityGrouping
+HAL_NVIC_SetPriority
+HAL_GPIO_Init
+HAL_NVIC_EnableIRQ
